@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment & secrets
+.env
+firebase_credentials.json
+
+# Local persistent database (not for production)
+local_db/*.json
+
+# Uploads
+uploads/
+
+# IDE
+.vscode/
+.idea/

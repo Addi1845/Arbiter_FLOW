@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+env/
+venv/
+.venv/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Sensitive files
+firebase_credentials.json
+
+# Build outputs
+dist/
+build/
+
+# Local databases
+backend/local_db/*.json
+!backend/local_db/.keep
+
+# OS generated files
+.DS_Store
+Thumbs.db

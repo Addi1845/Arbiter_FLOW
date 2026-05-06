@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700;1,900&display=swap');
+
+:root {
+  --bg-primary: #0B1120;
+  --bg-secondary: #0F1729;
+  --bg-surface: #141E30;
+  --bg-elevated: #1A2640;
+  --bg-sidebar: #0D1424;     /* sidebar — always dark */
+  --bg-topbar: #0D1424;      /* topbar — changes in light mode */
+  --border-primary: rgba(255,255,255,0.08);
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-faint: rgba(255,255,255,0.04);
+  --border-accent: rgba(212,160,23,0.4);
+  --text-primary: #EDE8DC;
+  --text-secondary: #8B97A8;
+  --text-muted: #4E5C70;
+  --accent-gold: #D4A017;
+  --accent-teal: #0ECFC0;
+  --status-high: #E53B2E;
+  --status-medium: #C8971A;
+  --status-low: #2D7D4F;
+  --status-comply: #2D7D4F;
+  --status-appeal: #C8971A;
+  --status-escalate: #E53B2E;
+  --agent-research: #3B82F6;
+  --agent-counter: #E53B2E;
+  --agent-synthesis: #2D7D4F;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+[data-theme="light"] {
+  /* Page backgrounds — warm naval slate, 3 stops lighter than dark */
+  --bg-primary: #C8D4E3;       /* cool blue-grey main bg */
+  --bg-secondary: #BDC9D9;     /* slightly darker secondary */
+  --bg-surface: #D6E0EC;       /* card/surface — lighter */
+  --bg-elevated: #CFDAE8;      /* elevated panels */
+
+  /* Sidebar stays dark — intentionally same as dark mode */
+  --bg-sidebar: #0D1424;
+  /* Topbar gets a medium tone that bridges sidebar & content */
+  --bg-topbar: #1C2E44;
+
+  /* Borders adjust to be visible on light bg */
+  --border-primary: rgba(14,30,60,0.12);
+  --border-subtle: rgba(14,30,60,0.08);
+  --border-faint: rgba(14,30,60,0.05);
+  --border-accent: rgba(200,145,10,0.35);
+
+  /* Text — dark navy, not black, keeps the blue family */
+  --text-primary: #1A2640;
+  --text-secondary: #3A4E68;
+  --text-muted: #6A7E96;
+
+  /* Accents — same hue family, slightly richer for light bg */
+  --accent-gold: #C49A12;
+  --accent-teal: #0BBFB2;
+
+  /* Status colours — same, they work on both */
+  --status-high: #D63A2E;
+  --status-medium: #B88416;
+  --status-low: #236B42;
+  --status-comply: #236B42;
+  --status-appeal: #B88416;
+  --status-escalate: #D63A2E;
+  --agent-research: #2D6FD4;
+  --agent-counter: #D63A2E;
+  --agent-synthesis: #236B42;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+body::after {
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  transition: opacity 300ms ease;
+}
+
+[data-theme="light"] body::after {
+  opacity: 0.015;
+}
+
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.page-enter {
+  animation: fadeIn 200ms ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+.pulse-anim {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+.skeleton-bg {
+  background: var(--bg-elevated);
+  background-image: linear-gradient(90deg, var(--bg-elevated) 0px, var(--bg-surface) 40px, var(--bg-elevated) 80px);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-anim {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes agentPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 currentColor; }
+  50% { transform: scale(1.4); box-shadow: 0 0 0 4px transparent; }
+}
+.agent-pulse {
+  animation: agentPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes greenPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(45, 125, 79, 0.5); }
+  50% { box-shadow: 0 0 0 3px rgba(45, 125, 79, 0.15); }
+}
+.green-pulse {
+  animation: greenPulse 2s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-skeleton 1.5s infinite;
+  border-radius: 2px;
+}
+
+@keyframes shimmer-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
