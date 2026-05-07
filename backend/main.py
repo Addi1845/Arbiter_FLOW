@@ -26,7 +26,7 @@ app = FastAPI(title="JudgeFlow AI")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:80").split(",")
+origins = os.getenv("ALLOWED_ORIGINS", "https://arbiter-flow.vercel.app,https://arbiter-flow-m1sy.vercel.app,http://localhost:3000,http://localhost:5173,http://localhost:80").split(",")
 
 app.add_middleware(
     CORSMiddleware,
