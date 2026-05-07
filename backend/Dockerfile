@@ -1,15 +1,9 @@
 FROM python:3.11-slim
 WORKDIR /app
 
-# Install system dependencies for PDF parsing and OCR
+# Only minimal system dependencies — no tesseract needed
 RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    poppler-utils \
     libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,7 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Create uploads directory
 RUN mkdir -p uploads
 
 EXPOSE 8000
