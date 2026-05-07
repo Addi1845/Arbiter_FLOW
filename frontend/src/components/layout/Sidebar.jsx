@@ -1,11 +1,13 @@
 import React from 'react';
-import { Upload, ClipboardCheck, LayoutDashboard, ChevronLeft, ChevronRight } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { Upload, ClipboardCheck, LayoutDashboard, ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getAlertsSummary } from '../../api/judgeflow';
+import { logout } from '../../utils/auth';
 
 export default function Sidebar({ collapsed, setCollapsed }) {
   const toggle = () => setCollapsed(!collapsed);
+  const navigate = useNavigate();
 
   const { data: alertsData } = useQuery({
     queryKey: ['alertsSummary'],
@@ -20,6 +22,13 @@ export default function Sidebar({ collapsed, setCollapsed }) {
     { to: "/verify", icon: ClipboardCheck, label: "Review", badge: urgentCount > 0 ? urgentCount : 0 },
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" }
   ];
+
+  function handleLogout() {
+    if (window.confirm("Sign out of JudgeFlow AI?")) {
+      logout();
+      navigate('/login');
+    }
+  }
 
   return (
     <div style={{
@@ -86,7 +95,8 @@ export default function Sidebar({ collapsed, setCollapsed }) {
               fontFamily: 'var(--font-body)',
               fontSize: '13px',
               fontWeight: '500',
-              gap: '12px'
+              gap: '12px',
+              position: 'relative',
             })}
             onMouseEnter={(e) => {
               if (!e.currentTarget.classList.contains('active')) {
@@ -105,10 +115,10 @@ export default function Sidebar({ collapsed, setCollapsed }) {
             <item.icon size={18} />
             {!collapsed && <span style={{ flex: 1 }}>{item.label}</span>}
             {item.badge > 0 && !collapsed && (
-              <span style={{ 
-                backgroundColor: 'var(--status-high)', color: '#fff', 
-                padding: '2px 6px', borderRadius: '10px', 
-                fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 'bold' 
+              <span style={{
+                backgroundColor: 'var(--status-high)', color: '#fff',
+                padding: '2px 6px', borderRadius: '10px',
+                fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 'bold'
               }}>
                 {item.badge}
               </span>
@@ -129,6 +139,34 @@ export default function Sidebar({ collapsed, setCollapsed }) {
         alignItems: collapsed ? 'center' : 'flex-start',
         gap: '10px'
       }}>
+
+        {/* Sign Out button */}
+        <button
+          onClick={handleLogout}
+          title="Sign out"
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-muted)',
+            cursor: 'pointer',
+            padding: '6px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: collapsed ? '0' : '10px',
+            width: '100%',
+            borderRadius: '3px',
+            transition: 'color 150ms ease',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            letterSpacing: '1px',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.color = '#E5392E'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+        >
+          <LogOut size={16} />
+          {!collapsed && <span>Sign Out</span>}
+        </button>
+
         <button onClick={toggle} style={{
           background: 'none',
           border: 'none',

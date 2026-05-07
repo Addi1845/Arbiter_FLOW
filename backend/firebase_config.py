@@ -170,9 +170,25 @@ bucket = None
 
 try:
     if not firebase_admin._apps:
+        # 1. Try JSON string from env var (for cloud deployments like Render)
+        cred_json_str = os.getenv("FIREBASE_CREDENTIALS_JSON")
         cred_path = os.getenv("FIREBASE_CREDENTIALS")
-        if cred_path and os.path.exists(cred_path):
+
+        if cred_json_str:
+            cred_dict = json.loads(cred_json_str)
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred, {
+                "storageBucket": os.getenv("STORAGE_BUCKET", "")
+            })
+        elif cred_path and os.path.exists(cred_path):
+            # 2. Fallback: local file path (for local dev)
             cred = credentials.Certificate(cred_path)
+            firebase_admin.initialize_app(cred, {
+                "storageBucket": os.getenv("STORAGE_BUCKET", "")
+            })
+        elif os.path.exists("firebase_credentials.json"):
+            # 3. Auto-detect file in current directory
+            cred = credentials.Certificate("firebase_credentials.json")
             firebase_admin.initialize_app(cred, {
                 "storageBucket": os.getenv("STORAGE_BUCKET", "")
             })

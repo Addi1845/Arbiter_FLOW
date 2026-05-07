@@ -1,11 +1,15 @@
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { getUser } from '../../utils/auth';
 
 export default function TopBar({ title, collapsed, theme, setTheme }) {
   const marginLeft = collapsed ? '56px' : '220px';
   // TopBar stays dark-ish in both modes — always use light text
   const topbarText = 'rgba(160,180,210,0.75)';
   const topbarDivider = 'rgba(255,255,255,0.1)';
+
+  const user = getUser();
+  const initials = user.slice(0, 2).toUpperCase();
 
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
@@ -103,7 +107,7 @@ export default function TopBar({ title, collapsed, theme, setTheme }) {
           fontSize: '11px',
           fontWeight: '500'
         }}>
-          RK
+          {initials}
         </div>
       </div>
     </div>
